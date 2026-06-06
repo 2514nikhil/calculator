@@ -2,10 +2,19 @@
 <html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="A premium glassmorphic calculator with advanced aesthetics, calculation history, keyboard shortcuts, and smooth micro-animations.">
     <meta name="keywords" content="calculator, web calculator, glassmorphic, glassmorphic UI, web app, HTML CSS JS calculator">
     <meta name="author" content="Nikhil">
+    
+    <!-- PWA & Mobile Capabilities -->
+    <meta name="theme-color" content="#09090e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="AuraCalc">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="manifest" href="manifest.json">
+    
     <title>AuraCalc - Elegant Glassmorphic Calculator</title>
     
     <!-- Google Fonts -->
@@ -36,6 +45,9 @@
                     <h1 class="brand-title">AURA<span>CALC</span></h1>
                 </div>
                 <div class="header-actions">
+                    <button class="icon-btn" id="pwa-install-btn" title="Install App" aria-label="Install AuraCalc as mobile app" style="display: none;">
+                        <i class="fa-solid fa-mobile-screen-button"></i>
+                    </button>
                     <button class="icon-btn" id="history-toggle" title="View History" aria-label="Toggle calculation history">
                         <i class="fa-solid fa-clock-rotate-left"></i>
                     </button>
@@ -107,6 +119,48 @@
             </div>
         </aside>
     </main>
+
+    <!-- PWA Install Modal -->
+    <div class="pwa-modal" id="pwa-modal" aria-hidden="true">
+        <div class="pwa-modal-content">
+            <header class="pwa-modal-header">
+                <h2>Install AuraCalc</h2>
+                <button class="icon-btn close-btn" id="pwa-modal-close" aria-label="Close installation window">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </header>
+            <div class="pwa-modal-body">
+                <div class="pwa-logo-container">
+                    <img src="icon-192.png" alt="AuraCalc Logo" class="pwa-app-logo">
+                    <h3>AuraCalc</h3>
+                    <p>Run AuraCalc as a standalone app on your mobile device without the browser controls.</p>
+                </div>
+                
+                <!-- iOS instructions (visible only on iOS) -->
+                <div class="pwa-instructions ios-only" id="pwa-ios-instructions" style="display: none;">
+                    <div class="instruction-step">
+                        <div class="step-num">1</div>
+                        <p>Tap the <strong>Share</strong> button <i class="fa-solid fa-share-from-square"></i> in Safari's bottom toolbar.</p>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-num">2</div>
+                        <p>Scroll down the share sheet and tap <strong>Add to Home Screen</strong> <i class="fa-regular fa-square-plus"></i>.</p>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-num">3</div>
+                        <p>Tap <strong>Add</strong> in the top-right corner to finish installing.</p>
+                    </div>
+                </div>
+
+                <!-- Android/Desktop install button (visible on supported browsers) -->
+                <div class="pwa-instructions android-desktop-only" id="pwa-android-instructions" style="display: none;">
+                    <button class="btn btn-equals install-now-btn" id="pwa-action-btn">
+                        <i class="fa-solid fa-cloud-arrow-down"></i> Install Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Core Script -->
     <script src="script.js"></script>

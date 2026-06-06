@@ -556,6 +556,100 @@ document.addEventListener('DOMContentLoaded', () => {
     themeToggleBtn.addEventListener('click', toggleTheme);
 
     /* ==========================================================================
+       PWA Standalone Installation Logic
+       ========================================================================== */
+
+    // Register Service Worker
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw.js')
+                .then((reg) => console.log('Service Worker registered successfully:', reg.scope))
+                .catch((err) => console.log('Service Worker registration failed:', err));
+        });
+    }
+
+    let deferredPrompt = null;
+    const pwaInstallBtn = document.getElementById('pwa-install-btn');
+    const pwaModal = document.getElementById('pwa-modal');
+    const pwaModalClose = document.getElementById('pwa-modal-close');
+    const pwaActionBtn = document.getElementById('pwa-action-btn');
+    const iosInstructions = document.getElementById('pwa-ios-instructions');
+    const androidInstructions = document.getElementById('pwa-android-instructions');
+
+    // Helper to check if running standalone
+    const isStandalone = () => {
+        return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    };
+
+    // Helper to check if iOS Safari
+    const isIOS = () => {
+        return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    };
+
+    // Initialize PWA installation features if NOT already running in standalone mode
+    if (!isStandalone()) {
+        // 1. Android/Chromium/Edge install prompt (beforeinstallprompt event)
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            pwaInstallBtn.style.display = 'flex';
+            androidInstructions.style.display = 'block';
+            iosInstructions.style.display = 'none';
+        });
+
+        // 2. iOS Safari check (needs manual guidance since it lacks beforeinstallprompt)
+        if (isIOS()) {
+            pwaInstallBtn.style.display = 'flex';
+            iosInstructions.style.display = 'block';
+            androidInstructions.style.display = 'none';
+        }
+    }
+
+    // Toggle Modal visibility
+    function togglePwaModal(show) {
+        const isOpen = show !== undefined ? show : pwaModal.getAttribute('aria-hidden') === 'true';
+        if (isOpen) {
+            pwaModal.setAttribute('aria-hidden', 'false');
+            pwaModal.classList.add('active');
+        } else {
+            pwaModal.setAttribute('aria-hidden', 'true');
+            pwaModal.classList.remove('active');
+        }
+    }
+
+    // Modal Event Listeners
+    pwaInstallBtn.addEventListener('click', () => togglePwaModal(true));
+    pwaModalClose.addEventListener('click', () => togglePwaModal(false));
+
+    // Close modal on clicking outside the content area
+    pwaModal.addEventListener('click', (e) => {
+        if (e.target === pwaModal) {
+            togglePwaModal(false);
+        }
+    });
+
+    // Native install action for Android / Desktop Chrome
+    pwaActionBtn.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+        
+        togglePwaModal(false);
+        deferredPrompt.prompt();
+        
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`User response to the install prompt: ${outcome}`);
+        
+        deferredPrompt = null;
+        pwaInstallBtn.style.display = 'none';
+    });
+
+    // Track successful installation
+    window.addEventListener('appinstalled', (evt) => {
+        console.log('AuraCalc PWA was installed successfully');
+        pwaInstallBtn.style.display = 'none';
+        togglePwaModal(false);
+    });
+
+    /* ==========================================================================
        Keyboard Listeners
        ========================================================================== */
 
