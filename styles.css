@@ -1,0 +1,601 @@
+/* ==========================================================================
+   Design System & Theme Variables
+   ========================================================================== */
+:root {
+    /* Fonts */
+    --font-primary: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    /* Theme-independent Gradients */
+    --grad-equals: linear-gradient(135deg, #8b5cf6, #3b82f6);
+    --grad-equals-hover: linear-gradient(135deg, #a78bfa, #60a5fa);
+    --grad-bg-1: #c084fc;
+    --grad-bg-2: #38bdf8;
+    --grad-bg-3: #f472b6;
+}
+
+/* Dark Theme Variables (Default) */
+[data-theme="dark"] {
+    --bg-app: #09090e;
+    --text-primary: #f1f3f9;
+    --text-muted: rgba(241, 243, 249, 0.6);
+    
+    /* Glassmorphism settings */
+    --glass-bg: rgba(18, 18, 28, 0.45);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-shadow: rgba(0, 0, 0, 0.4);
+    --glass-blur: 24px;
+    
+    /* Button styles */
+    --btn-num-bg: rgba(255, 255, 255, 0.04);
+    --btn-num-hover: rgba(255, 255, 255, 0.09);
+    --btn-num-active: rgba(255, 255, 255, 0.15);
+    --btn-num-text: #f1f3f9;
+    
+    --btn-util-bg: rgba(255, 255, 255, 0.09);
+    --btn-util-hover: rgba(255, 255, 255, 0.14);
+    --btn-util-active: rgba(255, 255, 255, 0.20);
+    --btn-util-text: #a78bfa;
+    
+    --btn-op-bg: rgba(139, 92, 246, 0.12);
+    --btn-op-hover: rgba(139, 92, 246, 0.25);
+    --btn-op-active: rgba(139, 92, 246, 0.35);
+    --btn-op-text: #d8b4fe;
+    
+    --accent-glow: rgba(139, 92, 246, 0.4);
+}
+
+/* Light Theme Variables */
+[data-theme="light"] {
+    --bg-app: #f0f2f6;
+    --text-primary: #0f172a;
+    --text-muted: rgba(15, 23, 42, 0.55);
+    
+    /* Glassmorphism settings */
+    --glass-bg: rgba(255, 255, 255, 0.45);
+    --glass-border: rgba(15, 23, 42, 0.06);
+    --glass-shadow: rgba(15, 23, 42, 0.08);
+    --glass-blur: 20px;
+    
+    /* Button styles */
+    --btn-num-bg: rgba(255, 255, 255, 0.65);
+    --btn-num-hover: #ffffff;
+    --btn-num-active: rgba(255, 255, 255, 0.95);
+    --btn-num-text: #0f172a;
+    
+    --btn-util-bg: rgba(15, 23, 42, 0.05);
+    --btn-util-hover: rgba(15, 23, 42, 0.09);
+    --btn-util-active: rgba(15, 23, 42, 0.14);
+    --btn-util-text: #6d28d9;
+    
+    --btn-op-bg: rgba(139, 92, 246, 0.08);
+    --btn-op-hover: rgba(139, 92, 246, 0.16);
+    --btn-op-active: rgba(139, 92, 246, 0.25);
+    --btn-op-text: #6d28d9;
+    
+    --accent-glow: rgba(59, 130, 246, 0.2);
+}
+
+/* ==========================================================================
+   Global & Reset Rules
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   Ambient Background Gradients (Moving Orbs)
+   ========================================================================== */
+.app-background-gradients {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.gradient-circle {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.45;
+    mix-blend-mode: screen;
+    animation: drift 25s infinite alternate ease-in-out;
+}
+
+[data-theme="light"] .gradient-circle {
+    opacity: 0.25;
+    mix-blend-mode: multiply;
+}
+
+.gradient-1 {
+    width: 45vw;
+    height: 45vw;
+    background-color: var(--grad-bg-1);
+    top: -10%;
+    left: -10%;
+    animation-duration: 20s;
+}
+
+.gradient-2 {
+    width: 50vw;
+    height: 50vw;
+    background-color: var(--grad-bg-2);
+    bottom: -15%;
+    right: -10%;
+    animation-duration: 28s;
+    animation-delay: -5s;
+}
+
+.gradient-3 {
+    width: 35vw;
+    height: 35vw;
+    background-color: var(--grad-bg-3);
+    top: 40%;
+    left: 45%;
+    animation-duration: 22s;
+    animation-delay: -10s;
+}
+
+@keyframes drift {
+    0% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+    50% {
+        transform: translate(8%, 5%) scale(1.1) rotate(180deg);
+    }
+    100% {
+        transform: translate(-5%, -8%) scale(0.9) rotate(360deg);
+    }
+}
+
+/* ==========================================================================
+   App Container & Glass Base
+   ========================================================================== */
+.app-container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    padding: 20px;
+    perspective: 1000px;
+}
+
+/* Base Glass Effect */
+.calculator-card, .history-drawer {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 20px 50px var(--glass-shadow);
+    border-radius: 32px;
+    transition: background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+/* ==========================================================================
+   Calculator Card Styles
+   ========================================================================== */
+.calculator-card {
+    width: 380px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Header Section */
+.calc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.brand-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--grad-equals);
+    box-shadow: 0 0 8px var(--accent-glow);
+}
+
+.brand-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, var(--text-primary), var(--text-muted));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.brand-title span {
+    font-weight: 300;
+}
+
+.header-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* Icon Buttons (Theme/History Toggles) */
+.icon-btn {
+    border: none;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.icon-btn:hover {
+    background: var(--btn-num-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--glass-shadow);
+}
+
+.icon-btn:active {
+    transform: translateY(0);
+}
+
+/* Display / Screen */
+.calc-display {
+    padding: 16px 20px;
+    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 8px;
+    overflow: hidden;
+}
+
+[data-theme="light"] .calc-display {
+    background: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(0, 0, 0, 0.02);
+}
+
+.expression-line {
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    min-height: 1.5rem;
+    letter-spacing: 0.5px;
+    text-align: right;
+    width: 100%;
+    white-space: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none; /* Firefox */
+}
+
+.expression-line::-webkit-scrollbar {
+    display: none; /* Safari/Chrome */
+}
+
+.input-line {
+    font-size: 2.85rem;
+    font-weight: 400;
+    color: var(--text-primary);
+    text-align: right;
+    width: 100%;
+    white-space: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -1px;
+    transition: font-size 0.15s ease-out;
+}
+
+.input-line::-webkit-scrollbar {
+    display: none;
+}
+
+/* Keypad Grid Layout */
+.calc-keypad {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+/* General Button Styles */
+.btn {
+    border: none;
+    outline: none;
+    font-size: 1.35rem;
+    font-weight: 500;
+    height: 68px;
+    border-radius: 18px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    border: 1px solid var(--glass-border);
+}
+
+.btn:active, .btn.keyboard-active {
+    transform: translateY(2px) scale(0.96);
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Key Varieties styling */
+.btn-number {
+    background: var(--btn-num-bg);
+    color: var(--btn-num-text);
+}
+.btn-number:hover {
+    background: var(--btn-num-hover);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.btn-utility {
+    background: var(--btn-util-bg);
+    color: var(--btn-util-text);
+    font-size: 1.25rem;
+}
+.btn-utility:hover {
+    background: var(--btn-util-hover);
+    color: var(--text-primary);
+}
+
+.btn-operator {
+    background: var(--btn-op-bg);
+    color: var(--btn-op-text);
+    font-size: 1.5rem;
+}
+.btn-operator:hover {
+    background: var(--btn-op-hover);
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.15);
+}
+
+.btn-equals {
+    background: var(--grad-equals);
+    color: #ffffff;
+    font-size: 1.6rem;
+    border: none;
+    box-shadow: 0 4px 15px var(--accent-glow);
+}
+.btn-equals:hover {
+    background: var(--grad-equals-hover);
+    box-shadow: 0 6px 20px var(--accent-glow);
+}
+
+/* ==========================================================================
+   History Drawer / Panel
+   ========================================================================== */
+.history-drawer {
+    width: 320px;
+    height: 574px; /* Same height as calculator container */
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    transform-origin: right center;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Drawer open/closed states */
+.history-drawer[aria-hidden="true"] {
+    width: 0;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
+    border-width: 0;
+    pointer-events: none;
+    transform: scaleX(0);
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    min-width: 272px; /* Prevent header collapse when width closes */
+}
+
+.history-header h2 {
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+.history-content {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-right: 4px;
+    min-width: 272px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.1) transparent;
+}
+
+.history-content::-webkit-scrollbar {
+    width: 4px;
+}
+.history-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+}
+
+/* Empty History State */
+.empty-history-message {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-muted);
+    gap: 12px;
+}
+.empty-history-message i {
+    font-size: 2rem;
+    opacity: 0.5;
+}
+.empty-history-message p {
+    font-size: 0.9rem;
+}
+
+/* History Items */
+.history-item {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.history-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+    transform: translateX(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.history-item-expression {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    word-break: break-all;
+    text-align: right;
+}
+
+.history-item-result {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+}
+
+/* Drawer Footer */
+.history-footer {
+    padding-top: 16px;
+    border-top: 1px solid var(--glass-border);
+    margin-top: 16px;
+    min-width: 272px;
+}
+
+.clear-history-btn {
+    width: 100%;
+    border: none;
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    padding: 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.clear-history-btn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    transform: translateY(-1px);
+}
+
+.clear-history-btn:active {
+    transform: translateY(0);
+}
+
+/* ==========================================================================
+   Responsive adjustments
+   ========================================================================== */
+@media (max-width: 768px) {
+    body {
+        overflow-y: auto;
+    }
+    
+    .app-container {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        padding: 12px;
+        gap: 16px;
+    }
+
+    .calculator-card {
+        width: 100%;
+        max-width: 380px;
+        padding: 20px;
+    }
+
+    /* History drawer becomes drop-down or overlays */
+    .history-drawer {
+        width: 100%;
+        max-width: 380px;
+        height: auto;
+        max-height: 350px;
+    }
+    
+    .history-drawer[aria-hidden="true"] {
+        max-height: 0;
+        padding: 0;
+        margin: 0;
+        border-width: 0;
+    }
+
+    .history-content {
+        max-height: 200px;
+    }
+}
+
+@media (max-width: 360px) {
+    .btn {
+        height: 60px;
+        font-size: 1.2rem;
+        border-radius: 14px;
+    }
+    .input-line {
+        font-size: 2.3rem;
+    }
+}

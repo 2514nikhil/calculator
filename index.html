@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A premium glassmorphic calculator with advanced aesthetics, calculation history, keyboard shortcuts, and smooth micro-animations.">
+    <meta name="keywords" content="calculator, web calculator, glassmorphic, glassmorphic UI, web app, HTML CSS JS calculator">
+    <meta name="author" content="Nikhil">
+    <title>AuraCalc - Elegant Glassmorphic Calculator</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Core Stylesheets -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-background-gradients">
+        <div class="gradient-circle gradient-1"></div>
+        <div class="gradient-circle gradient-2"></div>
+        <div class="gradient-circle gradient-3"></div>
+    </div>
+
+    <main class="app-container">
+        <!-- Main Calculator Card -->
+        <section class="calculator-card" id="calculator-card">
+            <!-- Header Controls -->
+            <header class="calc-header">
+                <div class="brand">
+                    <span class="brand-dot"></span>
+                    <h1 class="brand-title">AURA<span>CALC</span></h1>
+                </div>
+                <div class="header-actions">
+                    <button class="icon-btn" id="history-toggle" title="View History" aria-label="Toggle calculation history">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                    </button>
+                    <button class="icon-btn" id="theme-toggle" title="Toggle Theme" aria-label="Toggle dark/light theme">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Screen / Display -->
+            <div class="calc-display" id="calc-display">
+                <div class="expression-line" id="expression-display" aria-live="polite"></div>
+                <div class="input-line" id="input-display" aria-live="polite">0</div>
+            </div>
+
+            <!-- Keypad -->
+            <div class="calc-keypad" id="calc-keypad">
+                <!-- Row 1 -->
+                <button class="btn btn-utility" data-action="clear" id="key-clear">AC</button>
+                <button class="btn btn-utility" data-action="backspace" id="key-backspace" aria-label="backspace"><i class="fa-solid fa-delete-left"></i></button>
+                <button class="btn btn-utility" data-action="percent" id="key-percent">%</button>
+                <button class="btn btn-operator" data-action="divide" id="key-divide" aria-label="divide">÷</button>
+
+                <!-- Row 2 -->
+                <button class="btn btn-number" data-value="7" id="key-7">7</button>
+                <button class="btn btn-number" data-value="8" id="key-8">8</button>
+                <button class="btn btn-number" data-value="9" id="key-9">9</button>
+                <button class="btn btn-operator" data-action="multiply" id="key-multiply" aria-label="multiply">×</button>
+
+                <!-- Row 3 -->
+                <button class="btn btn-number" data-value="4" id="key-4">4</button>
+                <button class="btn btn-number" data-value="5" id="key-5">5</button>
+                <button class="btn btn-number" data-value="6" id="key-6">6</button>
+                <button class="btn btn-operator" data-action="subtract" id="key-subtract" aria-label="subtract">−</button>
+
+                <!-- Row 4 -->
+                <button class="btn btn-number" data-value="1" id="key-1">1</button>
+                <button class="btn btn-number" data-value="2" id="key-2">2</button>
+                <button class="btn btn-number" data-value="3" id="key-3">3</button>
+                <button class="btn btn-operator" data-action="add" id="key-add" aria-label="add">+</button>
+
+                <!-- Row 5 -->
+                <button class="btn btn-number" data-action="toggle-sign" id="key-toggle-sign">±</button>
+                <button class="btn btn-number" data-value="0" id="key-0">0</button>
+                <button class="btn btn-number" data-value="." id="key-decimal">.</button>
+                <button class="btn btn-equals" data-action="equals" id="key-equals" aria-label="equals">=</button>
+            </div>
+        </section>
+
+        <!-- History Drawer -->
+        <aside class="history-drawer" id="history-drawer" aria-hidden="true">
+            <div class="history-header">
+                <h2>Calculation History</h2>
+                <button class="icon-btn close-btn" id="history-close" aria-label="Close history">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="history-content" id="history-content">
+                <!-- Dynamic history entries will be injected here -->
+                <div class="empty-history-message" id="empty-history-message">
+                    <i class="fa-regular fa-folder-open"></i>
+                    <p>No history yet</p>
+                </div>
+            </div>
+            <div class="history-footer">
+                <button class="clear-history-btn" id="clear-history-btn">
+                    <i class="fa-solid fa-trash-can"></i> Clear History
+                </button>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Core Script -->
+    <script src="script.js"></script>
+</body>
+</html>
